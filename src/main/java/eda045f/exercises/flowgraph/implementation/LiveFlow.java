@@ -9,6 +9,8 @@ import soot.Local;
 import soot.Unit;
 import soot.Value;
 import soot.jimple.AbstractJimpleValueSwitch;
+import soot.jimple.AbstractStmtSwitch;
+import soot.jimple.ReturnStmt;
 import soot.toolkits.graph.DirectedGraph;
 
 public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<Value>>{
@@ -19,7 +21,6 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 
 	@Override
     protected void flowThrough(Set<Value> in, Unit d, Set<Value> out) {
-		System.out.println(in);
 		copy(in, out);
         // Kill
 		d.getDefBoxes().stream().forEach(vb -> out.remove(vb.getValue()));
@@ -27,10 +28,9 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 		d.getUseBoxes().stream().forEach(vb -> {
 			Set<Value> genset = new HashSet<>();
 			LiveFlowValueSwitch sw = new LiveFlowValueSwitch(genset);
-			unpack(vb.getValue(), sw);
+			vb.getValue().apply(sw);
 			copy(genset, out);
 		});
-		System.out.println(out);
 	}
 	
 	private void unpack(Value v, LiveFlowValueSwitch sw) {
@@ -48,9 +48,7 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 	}
 
 	@Override
-	protected void copy(Set<Value> source, Set<Value> dest) {
-		source.stream().forEach(v -> dest.add(v));
-	}
+	protected void copy(Set<Value> source, Set<Value> dest) { dest.addAll(source); }
 	
 	protected class LiveFlowValueSwitch extends AbstractJimpleValueSwitch {
 		private Set<Value> sv;
@@ -59,13 +57,9 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 		}
 		
 		@Override
-		public void caseLocal(Local v) {
-			sv.add(v);
-		}
+		public void caseLocal(Local v) { sv.add(v); }
 
 		@Override
-		public void defaultCase(Object v) {
-			unpack((Value)v, this);
-		}
+		public void defaultCase(Object v) { unpack((Value)v, this); }
 	}
 }
