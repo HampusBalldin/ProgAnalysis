@@ -29,16 +29,16 @@ public class ArrayIndexFuncAnalysis extends BodyTransformer {
 
 	private static ArrayList<Pair<ArrayRef, Stmt>> getArrayRefs(Body b) {
 		ArrayList<Pair<ArrayRef, Stmt>> arefs = new ArrayList<>();
-		b.getUnits().stream().forEach(u -> arefs.addAll(getArrayRefsStmt((Stmt) u)));
+		b.getUnits().forEach(u -> arefs.addAll(getArrayRefsStmt((Stmt) u)));
 		return arefs;
 	}
 
 	@Override
 	protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
 		Chain<Local> locals = b.getLocals();
-		ArrayIndexDomainSet aiad = new ArrayIndexDomainSet(-10, 10);
+		ArrayIndexDomainSet aiad = new ArrayIndexDomainSet(-2, 2);
 		ArrayIndexFlow fg = new ArrayIndexFlow(new CompleteUnitGraph(b), locals, aiad);
-		getArrayRefs(b).stream().forEach(pca -> pca.getValue0().getIndex()
+		getArrayRefs(b).forEach(pca -> pca.getValue0().getIndex()
 				.apply(new ArrayIndexCheckSwitch(aiad, fg, pca.getValue1(), b.getMethod())));
 	}
 

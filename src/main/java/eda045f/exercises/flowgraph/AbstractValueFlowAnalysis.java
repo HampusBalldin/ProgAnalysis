@@ -34,49 +34,38 @@ public abstract class AbstractValueFlowAnalysis<N extends Switchable, T> extends
 	
 	@Override
 	protected void copy(HashMap<Value, T> source, HashMap<Value, T> dest) {
-		source.keySet().stream().forEach(v -> dest.put(v, source.get(v)));
+		source.keySet().forEach(v -> dest.put(v, source.get(v)));
 	}
 
 	@Override
 	protected void flowThrough(HashMap<Value, T> in, N d, HashMap<Value, T> out) {
-//		System.out.println("----------------------------------------------------");
-//		System.out.println(in);
-//		
 		copy(in, out);
 		input = in;
 		output = out;
 		d.apply(stmtSwitch);
-//		System.out.println(out);
-//		System.out.println("----------------------------------------------------");
 	}
 
 	@Override
 	protected void merge(HashMap<Value, T> in1, HashMap<Value, T> in2, HashMap<Value, T> out) {
-//		System.out.println("----------------------------------------------------");
-//		System.out.println(in1);
-//		System.out.println(in2);
 		Set<Value> ks = new HashSet<Value>();
 
-		in1.keySet().stream().forEach(v -> ks.add(v));
-		in2.keySet().stream().forEach(v -> ks.add(v));
-
-		ks.stream().forEach(v -> {
+		ks.addAll(in1.keySet());
+		ks.addAll(in2.keySet());
+		
+		ks.forEach(v -> {
 			if (!in1.containsKey(v))
 				out.put(v, in2.get(v));
 			else if (!in2.containsKey(v))
 				out.put(v, in1.get(v));
-			else {
+			else 
 				out.put(v, abstractDomain.merge(in1.get(v), in2.get(v)));
-			}
 		});
-//		System.out.println(out);
-//		System.out.println("----------------------------------------------------");
 	}
 
 	protected class ArrayIndexStmtSwitch extends AbstractStmtSwitch {
 		@Override
 		public void caseAssignStmt(AssignStmt stmt) {
-			stmt.getDefBoxes().stream().forEach(vb -> {
+			stmt.getDefBoxes().forEach(vb -> {
 				stmt.getRightOp().apply(valueSwitch);
 				output.put(vb.getValue(), res);
 			});
@@ -134,7 +123,6 @@ public abstract class AbstractValueFlowAnalysis<N extends Switchable, T> extends
 
 		@Override
 		public void defaultCase(Object v) {
-//			System.out.println("Not implemented for case: " + v);
 			res = abstractDomain.bottom();
 		}
 	}

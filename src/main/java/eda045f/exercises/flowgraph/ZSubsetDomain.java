@@ -1,6 +1,17 @@
 package eda045f.exercises.flowgraph;
 
 public abstract class ZSubsetDomain implements ValueDomainSet<Integer> {
+	/**
+	 * Corresponds to a lattice where elements are either in
+	 * 	i)   A specific value range:   x in { i }
+	 *  ii)  A large negative number:  x in { min - 1, max - 2 , ... }
+	 *  iii) A large positive number:  x in { max + 1, max + 2, ... }
+	 *  iv)  In unknown range:         x in {}
+	 *  v)   Any integer     :         x in { ... -2,-1,0,1,2, ... }
+	 *  
+	 *  The size of the specific range can be specified at construction.
+	 *  The binary operators '*','+','-','/' as well as the unary '-' are supported.
+	 */
 	protected Integer min;
 	protected Integer max;
 	protected Integer bottom = Integer.MIN_VALUE;

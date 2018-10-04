@@ -52,8 +52,7 @@ public abstract class AbstractFlowAnalysis<V extends Switchable, N extends Switc
     }
     
     private A getIn(N node) {
-    	List<A> fn = graph.getPredsOf(node).stream().map(n -> flowMap.get(n)).collect(Collectors.toList());
-		return doMerge(fn);
+		return doMerge(graph.getPredsOf(node).stream().map(n -> flowMap.get(n)).collect(Collectors.toList()));
     }
 
     protected void doAnalysis() {

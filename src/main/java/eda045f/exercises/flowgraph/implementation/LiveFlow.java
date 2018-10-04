@@ -9,8 +9,6 @@ import soot.Local;
 import soot.Unit;
 import soot.Value;
 import soot.jimple.AbstractJimpleValueSwitch;
-import soot.jimple.AbstractStmtSwitch;
-import soot.jimple.ReturnStmt;
 import soot.toolkits.graph.DirectedGraph;
 
 public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<Value>>{

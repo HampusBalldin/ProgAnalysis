@@ -9,7 +9,6 @@ import soot.PackManager;
 import soot.Scene;
 import soot.SootClass;
 import soot.Transform;
-import soot.options.Options;
 
 /**
 * Stub for implementing Soot analyses.
@@ -61,12 +60,11 @@ public class MyMainClass {
 		}
 
 		// Install your analysis, which is now executed (by default) on everything passed in the Soot classpath.
-//		PackManager.v().getPack("jtp").add(new Transform("jtp.EDA045F.MainFuncAnalysis", new MainFuncAnalysis()));
-//		PackManager.v().getPack("jtp").add(new Transform("jtp.EDA045F.DeprFuncAnalysis", new DeprFuncAnalysis()));
+		PackManager.v().getPack("jtp").add(new Transform("jtp.EDA045F.MainFuncAnalysis", new MainFuncAnalysis()));
+		PackManager.v().getPack("jtp").add(new Transform("jtp.EDA045F.DeprFuncAnalysis", new DeprFuncAnalysis()));
 		PackManager.v().getPack("jtp").add(new Transform("jtp.EDA045F.ArrayIndexFuncAnalysis", new ArrayIndexFuncAnalysis()));
-//		PackManager.v().getPack("jtp").add(new Transform("jtp.EDA045F.LiveVarAnalysis", new LiveVarAnalysis()));
+		PackManager.v().getPack("jtp").add(new Transform("jtp.EDA045F.LiveVarAnalysis", new LiveVarAnalysis()));
 
-		
 		// Now call the Soot infrastructure with our analysis plugged in
 		// default args:
 		List<String> argsList = new ArrayList<String>(Arrays.asList(setup_args.split(" ")));

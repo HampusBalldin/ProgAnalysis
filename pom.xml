@@ -33,6 +33,21 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>./sootOutput</directory>
+                            <includes>
+                                <include>*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <modelVersion>4.0.0</modelVersion>
@@ -49,11 +64,11 @@
             <version>3.8.2</version>
             <scope>test</scope>
         </dependency>
-        <!-- <dependency> -->
-        <!--     <groupId>ca.mcgill.sable</groupId> -->
-        <!--     <artifactId>soot</artifactId> -->
-        <!--     <version>3.1.0-SNAPSHOT</version> -->
-        <!-- </dependency> -->
+        <dependency>
+            <groupId>ca.mcgill.sable</groupId>
+            <artifactId>soot</artifactId>
+            <version>3.1.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>edaf045.f.exercises</groupId>
             <artifactId>rt</artifactId>
@@ -68,13 +83,20 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/resources/jce.jar</systemPath>
         </dependency>
-        <dependency>
-            <groupId>edaf045.f.exercises</groupId>
-            <artifactId>soot</artifactId>
-            <version>3.1.0a</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/soot-3.1.0a.jar</systemPath>
-        </dependency>
+        <!-- <dependency> -->
+            <!--     <groupId>edaf045.f.exercises</groupId> -->
+            <!--     <artifactId>soot</artifactId> -->
+            <!--     <version>3.1.0a</version> -->
+            <!--     <scope>system</scope> -->
+            <!--     <systemPath>${project.basedir}/src/main/resources/soot-3.1.0a.jar</systemPath> -->
+            <!-- </dependency> -->
+        <!-- <dependency> -->
+            <!--     <groupId>edaf045.f.exercises</groupId> -->
+            <!--     <artifactId>soot</artifactId> -->
+            <!--     <version>3.1.0</version> -->
+            <!--     <scope>system</scope> -->
+            <!--     <systemPath>${project.basedir}/src/main/resources/soot-3.1.0.jar</systemPath> -->
+            <!-- </dependency> -->
         <dependency>
             <groupId>org.javatuples</groupId>
             <artifactId>javatuples</artifactId>

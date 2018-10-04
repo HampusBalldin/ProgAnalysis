@@ -12,8 +12,12 @@ public class MainFuncAnalysis extends BodyTransformer {
 		SootMethod m = body.getMethod();
 		if (m.isPublic() && m.isStatic() && m.getName().equals("main") && m.getParameterCount() == 1
 				&& m.getParameterType(0).toQuotedString().equals("java.lang.String[]")) {
-			System.out.println("Decl: " + m.getDeclaration() + ", Sig: " + m.getSignature());
+			System.out.println("MAIN " + m.getSignature());
 			assert (m.isMain());
+		}
+		else
+		{
+			assert(!m.isMain());
 		}
 	}
 }
