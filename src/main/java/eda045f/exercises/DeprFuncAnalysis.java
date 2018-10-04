@@ -37,7 +37,7 @@ public class DeprFuncAnalysis extends BodyTransformer {
 
 			SootMethod d = u.getInvokeExpr().getMethod();
 			if (isMethodDeprecated(d)) {
-				System.out.println("DEP: " + b.getMethod().getSignature() + " at " + u.getJavaSourceStartLineNumber()
+				System.out.println("DEP " + b.getMethod().getSignature() + " " + u.getJavaSourceStartLineNumber()
 						+ " calls deprecated: " + d.getSignature());
 			}
 		}
